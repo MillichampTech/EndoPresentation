@@ -1,0 +1,1135 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Slides — Endometriosis Awareness North</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+  .topbar{
+    position:sticky; top:0; z-index:60;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .topbar .row{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0; }
+  .deck{ padding: 14px 0 26px; }
+
+  .slide{ display:none; }
+  .slide.is-active{ display:block; }
+
+  :root{
+    --ppt-green: #7fb21a;
+    --ppt-green-dark: #5e8f12;
+    --ppt-slate: #2f3f46;
+    --ppt-white: #ffffff;
+    --ppt-text: #111111;
+  }
+
+  .slide-card{
+    position:relative;
+    background: var(--ppt-white);
+    color: var(--ppt-text);
+    border: 1px solid #dfe6da;
+    border-radius: 18px;
+    padding: 30px 34px;
+    box-shadow: var(--shadow);
+    max-width: 1060px;
+    margin: 0 auto;
+    min-height: 595px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .slide-card::after{
+    content:"";
+    position:absolute;
+    top:-80px; right:-140px;
+    width: 520px; height: 900px;
+    background:
+      linear-gradient(120deg, rgba(127,178,26,.20), rgba(127,178,26,0) 55%),
+      linear-gradient(160deg, rgba(94,143,18,.45), rgba(94,143,18,0) 60%),
+      linear-gradient(200deg, rgba(127,178,26,.55), rgba(127,178,26,0) 70%);
+    transform: skewX(-10deg) rotate(8deg);
+    border-left: 1px solid rgba(0,0,0,.08);
+    opacity:.95;
+    pointer-events:none;
+  }
+
+  .slide-card::before{
+    content:"";
+    position:absolute;
+    inset:-40px -40px auto auto;
+    width: 520px; height: 520px;
+    border: 1px solid rgba(0,0,0,.06);
+    transform: rotate(14deg);
+    border-radius: 36px;
+    pointer-events:none;
+  }
+
+  .slide-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 10px; position:relative; z-index:1; }
+  .slide-num{ font-weight:800; color: rgba(0,0,0,.55); font-size:.95rem; letter-spacing:.02em; }
+
+  .slide-card h2{
+    margin: 6px 0 18px;
+    font-size: clamp(1.6rem, 3vw, 2.35rem);
+    letter-spacing: .01em;
+    line-height: 1.12;
+    color: var(--ppt-green);
+    position:relative; z-index:1;
+  }
+
+  .slide-card p, .slide-card ul{ position:relative; z-index:1; }
+  .slide-card p{ font-size:1.12rem; max-width:74ch; margin:0 0 14px; }
+  .slide-card ul{ padding-left:0; margin:0; font-size:1.12rem; max-width:78ch; list-style:none; }
+  .slide-card li{ margin:.5rem 0; padding-left:1.15rem; position:relative; font-weight:650; }
+  .slide-card li::before{ content:"•"; position:absolute; left:0; color:var(--ppt-green); font-weight:900; }
+
+  .slide-footer{
+    margin-top:auto;
+    padding-top: 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    color: rgba(0,0,0,.55);
+    font-size: .95rem;
+    position:relative; z-index:1;
+  }
+  .slide-footer .line{
+    flex:1; height:4px; border-radius:999px;
+    background: linear-gradient(90deg, var(--ppt-green), rgba(127,178,26,.10));
+    max-width: 320px;
+  }
+
+  .slide[data-slide="1"] .slide-card{
+    background: var(--ppt-slate);
+    color:#ffffff;
+    border-color: rgba(255,255,255,.10);
+  }
+  .slide[data-slide="1"] .slide-card::after{
+    border-left-color: rgba(255,255,255,.10);
+    background:
+      linear-gradient(120deg, rgba(127,178,26,.25), rgba(127,178,26,0) 55%),
+      linear-gradient(160deg, rgba(94,143,18,.60), rgba(94,143,18,0) 60%),
+      linear-gradient(200deg, rgba(127,178,26,.70), rgba(127,178,26,0) 70%);
+  }
+  .slide[data-slide="1"] .slide-card::before{ border-color: rgba(255,255,255,.10); }
+  .slide[data-slide="1"] .slide-num{ color: rgba(255,255,255,.70); }
+  .slide[data-slide="1"] h2{ color:#9bd43a; }
+  .slide[data-slide="1"] p, .slide[data-slide="1"] li{ color:#ffffff; font-weight:700; }
+  .slide[data-slide="1"] li::before{ color:#9bd43a; }
+  .slide[data-slide="1"] .slide-footer{ color: rgba(255,255,255,.70); }
+  .slide[data-slide="1"] .slide-footer .line{ background: linear-gradient(90deg, #9bd43a, rgba(155,212,58,.18)); }
+
+  .controls{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:14px 0 0; align-items:center; }
+  .jump{ display:inline-flex; align-items:center; gap:8px; padding:.55rem .75rem; border-radius:12px; border:1px solid var(--border); background: color-mix(in srgb, var(--bg) 92%, #fff); }
+  .jump label{ font-weight:800; color: var(--muted); font-size:.95rem; }
+  .jump input{ width:72px; padding:.45rem .55rem; border-radius:10px; border:1px solid var(--border); background: transparent; color: var(--fg); font: inherit; }
+  .kbdhint{ text-align:center; margin-top:10px; color: var(--muted); font-size:.92rem; }
+
+  @media (max-width: 900px){ .slide-card{ padding: 22px 18px; min-height: 540px; } }
+  @media (max-width: 640px){
+    .topbar .row{ flex-wrap:wrap; }
+    .pill{ width:100%; justify-content:space-between; }
+    .jump input{ width:64px; }
+    .slide-card{ min-height: 520px; }
+  }
+
+  /* Thinner top bar */
+  .topbar .row{ padding: 6px 0; }
+  .nav-actions{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+  .nav-actions .pill{ padding:.35rem .55rem; }
+  .nav-actions .btn{ padding:.55rem .75rem; }
+
+  /* Autoplay control under navbar */
+  .autoplay-bar{ display:flex; align-items:center; justify-content:flex-start; gap:10px; padding:10px 0 0; }
+  @media (max-width: 640px){ .autoplay-bar{ flex-wrap:wrap; padding:8px 0 0; } }
+
+  /* Side arrows fixed */
+  .side-arrow{
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 70;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 88%, #fff);
+    color: var(--fg);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .side-arrow.left{ left: 12px; }
+  .side-arrow.right{ right: 12px; }
+  .side-arrow:hover{ background: color-mix(in srgb, var(--brand) 7%, transparent); }
+  .side-arrow:focus{ outline:3px solid var(--accent); outline-offset:2px; }
+  @media (max-width: 520px){
+    .side-arrow{ padding: 10px 12px; font-size: 22px; }
+    .side-arrow.left{ left: 6px; }
+    .side-arrow.right{ right: 6px; }
+  }
+
+  /* Modal */
+  .modal-backdrop{
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 90;
+  }
+  .modal{
+    position: fixed; inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+  }
+  .modal-card{
+    width: min(520px, 100%);
+    background: var(--bg);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 24px 70px rgba(0,0,0,.25);
+    overflow: hidden;
+  }
+  .modal-head{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 92%, #fff);
+  }
+  .modal-head h3{ margin:0; font-size: 1.05rem; }
+  .modal-body{ padding: 14px; display:grid; gap:12px; }
+  .field{ display:grid; gap:6px; }
+  .field select, .field input[type="range"]{ width:100%; }
+  .field select{
+    padding: .55rem .6rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--fg);
+    font: inherit;
+  }
+  .toggles label{ display:flex; align-items:center; gap:10px; }
+  .row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#deck">Skip to slides</a>
+<div id="a11y-live" aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;"></div>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="row">
+      <a class="brand" href="index.html">
+        <span class="brand-badge" aria-hidden="true"></span>
+        <div>
+          <strong>Endometriosis Awareness North</strong>
+          <div class="small">Slides (HTML)</div>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+  <div class="pill" aria-label="Translate these slides">
+    <span class="label">Translate</span>
+    <span id="google_translate_element" aria-label="Google translate selector"></span>
+  </div>
+  <button class="btn" id="openA11y" type="button" aria-haspopup="dialog" aria-controls="a11yModal">Accessibility</button>
+  <a class="btn" href="index.html">Home</a>
+</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- Autoplay (global slide control) -->
+<div class="wrap autoplay-bar" aria-label="Slide autoplay controls">
+  <button class="btn primary" id="autoBtn" type="button">Start autoplay</button>
+  <span class="small">Advances every 4 seconds</span>
+</div>
+
+<!-- Side navigation (always visible) -->
+<button class="side-arrow left" id="prevBtn" type="button" aria-label="Previous slide">←</button>
+<button class="side-arrow right" id="nextBtn" type="button" aria-label="Next slide">→</button>
+
+<!-- Accessibility modal (translation stays in the top bar) -->
+<div class="modal-backdrop" id="a11yBackdrop" hidden></div>
+<div class="modal" id="a11yModal" role="dialog" aria-modal="true" aria-labelledby="a11yTitle" hidden>
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="a11yTitle">Accessibility</h3>
+      <button class="btn" id="closeA11y" type="button" aria-label="Close accessibility panel">Close</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="field">
+        <label for="themeSelect"><b>Theme</b></label>
+        <select id="themeSelect" aria-label="Select theme">
+          <option value="light">Light (purple/yellow)</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">High contrast</option>
+          <option value="dyslexia">Dyslexia (warm)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="fontSizeRange"><b>Text size</b> <span class="small" id="fontSizeLabel">100%</span></label>
+        <input id="fontSizeRange" type="range" min="90" max="150" step="5" value="100" />
+      </div>
+
+      <div class="field toggles">
+        <label><input id="toggleReduceMotion" type="checkbox" /> Reduce motion</label>
+        <label><input id="toggleUnderline" type="checkbox" /> Underline links</label>
+        <label><input id="toggleReadable" type="checkbox" /> Readable mode</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<main id="deck" class="wrap deck">
+  <section class="slide" data-slide="1" aria-roledescription="slide" aria-label="Slide 1 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 1 / 35</div>
+    </div>
+    <h2>GPwSI Gynaecology</h2>
+    <ul>
+<li>Chair and Founder of Endometriosis Awareness  North</li>
+<li>Chair of Women's Doctors Forum BIDA</li>
+<li>Education Lead  FDA North-West</li>
+<li>Undergraduate Trainer University of Manchester</li>
+<li>GP Member NICE QS Endometriosis, menopause, Breast CA</li>
+<li>Ex Clinical Director Vascular and MO Oldham CCG</li>
+<li>Dr Anita Sharma</li>
+</ul>
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="2" aria-roledescription="slide" aria-label="Slide 2 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 2 / 35</div>
+    </div>
+    <h2>MISSION STATEMENT</h2>
+    <ul>
+<li>ENDOMETRIOSIS     AWARENESS</li>
+<li>NORTH CHARITY</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide2.png" alt="Slide 2 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="3" aria-roledescription="slide" aria-label="Slide 3 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 3 / 35</div>
+    </div>
+    <h2>Women’s Health Strategy for England Published</h2>
+    <ul>
+<li>December 2021</li>
+<li>PROMOTE GOOD HEALTH</li>
+<li>PREVENT NEGATIVE HEALTH OUTCOME</li>
+<li>RESTORE HEALTH &WELL BEING</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%203.jpg" alt="Slide 3 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="4" aria-roledescription="slide" aria-label="Slide 4 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 4 / 35</div>
+    </div>
+    <h2>ENDOMETRIOSIS:</h2>
+    <ul>
+<li>Is a condition characterized by the presence</li>
+<li>of</li>
+<li>TISSUE RESEMBLING ENDOMETRIUM</li>
+<li>OUTSIDE OF THE UTERUS</li>
+<li>WHAT</li>
+<li>IS</li>
+<li>ENDOMETRIOSIS</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%204.png" alt="Slide 4 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="5" aria-roledescription="slide" aria-label="Slide 5 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 5 / 35</div>
+    </div>
+    <h2>DIAGNOSIS</h2>
+    <ul>
+<li>Suspected Endometriosis in Women</li>
+<li>(including young women aged 17 and under)</li>
+<li>presenting with 1 or more of the following symptoms and signs:</li>
+<li>Chronic pelvic pain</li>
+<li>Dysmenorrhoea</li>
+<li>Deep pain during or after Sex</li>
+<li>GI symptoms</li>
+<li>Urinary symptoms</li>
+<li>Infertility</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%205.jpg" alt="Slide 5 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="6" aria-roledescription="slide" aria-label="Slide 6 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 6 / 35</div>
+    </div>
+    <h2>Slide 6</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%206.jpg" alt="Slide 6 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="7" aria-roledescription="slide" aria-label="Slide 7 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 7 / 35</div>
+    </div>
+    <h2>ENDOMETRIOSIS</h2>
+    <ul>
+<li>or</li>
+<li>MENSTRUAL CRAMP</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%207.jpg" alt="Slide 7 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="8" aria-roledescription="slide" aria-label="Slide 8 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 8 / 35</div>
+    </div>
+    <h2>Persisting pain during period</h2>
+    <ul>
+<li>Severe enough to interfere with normal activities</li>
+<li>Lasting longer than 2-3 days</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%208.jpg" alt="Slide 8 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="9" aria-roledescription="slide" aria-label="Slide 9 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 9 / 35</div>
+    </div>
+    <h2>SPREAD</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%209.jpg" alt="Slide 9 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="10" aria-roledescription="slide" aria-label="Slide 10 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 10 / 35</div>
+    </div>
+    <h2>ENDOMETRIOSIS LUNG</h2>
+    <p>26-year-old Coughing Up Blood</p>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide10.png" alt="Slide 10 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="11" aria-roledescription="slide" aria-label="Slide 11 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 11 / 35</div>
+    </div>
+    <h2>FACTS</h2>
+    <ul>
+<li>Endometriosis is estimated to affect</li>
+<li>1.5 MILLION WOMEN in the UK</li>
+<li>Globally , it affects 190 MILLION WOMEN</li>
+<li>It takes on average 7.5 YEARS to make a diagnosis</li>
+<li>27 is the average age when a woman is first diagnosed with endometriosis</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;">
+      <img src="slide%20images/slide%2011.png" alt="Slide 11 image 1" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/alide%2011-2.jpg" alt="Slide 11 image 2" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="12" aria-roledescription="slide" aria-label="Slide 12 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 12 / 35</div>
+    </div>
+    <h2>FACTS</h2>
+    <ul>
+<li>Difficulty Conceiving can occur In 30 - 50 % of Cases</li>
+<li>It can have a significant Impact on the:</li>
+<li>Diagnosis for Endometriosis is Appallingly Slow</li>
+<li>Research</li>
+<li>Mental Health Support For Victims</li>
+<li>PHYSICAL,</li>
+<li>MENTAL,</li>
+<li>PSYCHOLOGICAL</li>
+<li>SOCIAL</li>
+</ul>
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="13" aria-roledescription="slide" aria-label="Slide 13 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 13 / 35</div>
+    </div>
+    <h2>Why Is The CARE POOR IN The UK</h2>
+    <ul>
+<li>The Stigma associated with discussing period problems and painful sex</li>
+<li>Lack of awareness of symptoms and not seeking early help from GP</li>
+<li>Lack of Specialist Support</li>
+<li>GP’s Lack of Awareness and Training</li>
+<li>Poor Training</li>
+</ul>
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="14" aria-roledescription="slide" aria-label="Slide 14 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 14 / 35</div>
+    </div>
+    <h2>Slide 14</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%2014.png" alt="Slide 14 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="15" aria-roledescription="slide" aria-label="Slide 15 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 15 / 35</div>
+    </div>
+    <h2>NCEPOD REPORT</h2>
+    <ul>
+<li>11.7.2024</li>
+<li>LACK OF ENDOMETRIOSIS PATHWAY</li>
+<li>AND</li>
+<li>POOR SYMPTOM RECOGNITION</li>
+<li>HINDER CARE</li>
+<li>Many Drs including Gynaecologists still believe a painful period is normal</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%2015.png" alt="Slide 15 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="16" aria-roledescription="slide" aria-label="Slide 16 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 16 / 35</div>
+    </div>
+    <h2>Role of Primary care</h2>
+    <ul>
+<li>16</li>
+<li>SEE YOUR GP</li>
+</ul>
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="17" aria-roledescription="slide" aria-label="Slide 17 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 17 / 35</div>
+    </div>
+    <h2>ENDOMETRIOSIS RESEARCH AT UNIVERSITY OF MANCHESTER IRAS 294763</h2>
+    <ul>
+<li>Professor Kay Marshall</li>
+<li>Miss Gaity Ahmad</li>
+<li>Harriet Lamb</li>
+<li>Prof. A Miller</li>
+<li>Alberto Salari</li>
+<li>Sarah Herrick</li>
+<li>Dr D Fletcher</li>
+<li>Dr Jessica Traynor</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide%2017.jpg" alt="Slide 17 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="18" aria-roledescription="slide" aria-label="Slide 18 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 18 / 35</div>
+    </div>
+    <h2>Slide 18</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;">
+      <img src="slide%20images/slide%2018-1.jpg" alt="Slide 18 image 1" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide18%20-2.jpg" alt="Slide 18 image 2" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="19" aria-roledescription="slide" aria-label="Slide 19 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 19 / 35</div>
+    </div>
+    <h2>THANK YOU</h2>
+    <ul>
+<li>Thank you for attending this Endometriosis Awareness Session</li>
+<li>If you require any further information our Contact Details</li>
+</ul>
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="20" aria-roledescription="slide" aria-label="Slide 20 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 20 / 35</div>
+    </div>
+    <h2>BOOKS BY Dr.ANITA SHARMA</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;">
+      <img src="slide%20images/slide20-1.png" alt="Slide 20 image 1" loading="lazy" style="flex:1 1 300px; max-width:calc(33.333% - 10px); max-height:250px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide20-2.png" alt="Slide 20 image 2" loading="lazy" style="flex:1 1 300px; max-width:calc(33.333% - 10px); max-height:250px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide20-3.jpg" alt="Slide 20 image 3" loading="lazy" style="flex:1 1 300px; max-width:calc(33.333% - 10px); max-height:250px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="21" aria-roledescription="slide" aria-label="Slide 21 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 21 / 35</div>
+    </div>
+    <h2>FIRST BMA PRIZE 1995</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide21.jpg" alt="Slide 21 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="22" aria-roledescription="slide" aria-label="Slide 22 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 22 / 35</div>
+    </div>
+    <h2>Slide 22</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide22.png" alt="Slide 22 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="23" aria-roledescription="slide" aria-label="Slide 23 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 23 / 35</div>
+    </div>
+    <h2>Slide 23</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide23.png" alt="Slide 23 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="24" aria-roledescription="slide" aria-label="Slide 24 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 24 / 35</div>
+    </div>
+    <h2>ENDOMETRIOSIS CHARITY 5K WALK</h2>
+    <ul>
+<li>20.3.2022</li>
+<li>https://endometriosisawarenessnorth.com/</li>
+</ul>
+    <div data-images="true" style="margin-top:14px; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;">
+      <img src="slide%20images/slide24-1.jpg" alt="Slide 24 image 1" loading="lazy" style="flex:1 1 300px; max-width:calc(33.333% - 10px); max-height:250px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide24-2.jpg" alt="Slide 24 image 2" loading="lazy" style="flex:1 1 300px; max-width:calc(33.333% - 10px); max-height:250px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide24-3.jpg" alt="Slide 24 image 3" loading="lazy" style="flex:1 1 300px; max-width:calc(33.333% - 10px); max-height:250px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="25" aria-roledescription="slide" aria-label="Slide 25 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 25 / 35</div>
+    </div>
+    <h2>ENDOMETRIOSIS AWARENESS EVENT</h2>
+    <p>1st July 2022</p>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide25.png" alt="Slide 25 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="26" aria-roledescription="slide" aria-label="Slide 26 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 26 / 35</div>
+    </div>
+    <h2>WALK IN QUEEN’S PARK 9.3.2024</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;">
+      <img src="slide%20images/slide%2026-1.jpg" alt="Slide 26 image 1" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide26-2.jpg" alt="Slide 26 image 2" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="27" aria-roledescription="slide" aria-label="Slide 27 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 27 / 35</div>
+    </div>
+    <h2>WALK IN OLDHAM TO RAISE AWARENESS 6.7.2024</h2>
+    <p>OLDHAM WALK</p>
+    <div data-images="true" style="margin-top:14px; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;">
+      <img src="slide%20images/slide27-1.jpg" alt="Slide 27 image 1" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide27-2.jpg" alt="Slide 27 image 2" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="28" aria-roledescription="slide" aria-label="Slide 28 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 28 / 35</div>
+    </div>
+    <h2>ROCHDALE PRIDE    EVENT</h2>
+    <p>13.7.2024</p>
+    <div data-images="true" style="margin-top:14px; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;">
+      <img src="slide%20images/slide28-1.jpg" alt="Slide 28 image 1" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide28-2.jpg" alt="Slide 28 image 2" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="29" aria-roledescription="slide" aria-label="Slide 29 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 29 / 35</div>
+    </div>
+    <h2>DERBY HIGH SCHOOL 26.3.2024</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;">
+      <img src="slide%20images/slide29-1.jpg" alt="Slide 29 image 1" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide29-2.jpg" alt="Slide 29 image 2" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="30" aria-roledescription="slide" aria-label="Slide 30 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 30 / 35</div>
+    </div>
+    <h2>COFFEE MORNING 14.9.2024</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;">
+      <img src="slide%20images/slide30-1.jpg" alt="Slide 30 image 1" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+      <img src="slide%20images/slide30-2.jpg" alt="Slide 30 image 2" loading="lazy" style="max-width:calc(50% - 10px); max-height:330px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="31" aria-roledescription="slide" aria-label="Slide 31 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 31 / 35</div>
+    </div>
+    <h2>WALK HOLLINGWORTH LAKE</h2>
+    <p>22.3.2025</p>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide31.jpg" alt="Slide 31 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="32" aria-roledescription="slide" aria-label="Slide 32 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 32 / 35</div>
+    </div>
+    <h2>PERIOD POVERTY PROJECT</h2>
+    <div data-images="true" style="margin-top:14px; display:flex; justify-content:center;">
+      <img src="slide%20images/slide32.jpg" alt="Slide 32 image 1" loading="lazy" style="max-width:100%; max-height:410px; width:auto; height:auto; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 24px rgba(0,0,0,.10);"/>
+    </div>
+
+
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="33" aria-roledescription="slide" aria-label="Slide 33 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 33 / 35</div>
+    </div>
+    <h2>GYNAE CLINIC ROH</h2>
+    
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="34" aria-roledescription="slide" aria-label="Slide 34 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 34 / 35</div>
+    </div>
+    <h2>Support the Endometriosis Awareness North by visiting www.endometriosisawarenessnorth.com</h2>
+    <ul>
+<li>This site includes information on the signs and symptoms of endometriosis</li>
+<li>Charity Number</li>
+<li>We are registered with The Charity Commission. Our Charity number is 1212676.</li>
+<li>Contact the Charity at:</li>
+</ul>
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-slide="35" aria-roledescription="slide" aria-label="Slide 35 of 35">
+  <div class="slide-card">
+    <div class="slide-top">
+      <div class="slide-num">Slide 35 / 35</div>
+    </div>
+    <h2>ENDOMETRIOSIS AWARENESS</h2>
+    <ul>
+<li>NORTH</li>
+<li>TEAM MEMBERS</li>
+<li>Dr Anita Sharma</li>
+<li>Chair and Founder of Endometriosis Awareness North  Charity</li>
+<li>Melanie Banks</li>
+<li>Secretary and Campaign Ambassador</li>
+<li>Lucy Bowker and Courtney Ormrod</li>
+<li>Campaign Ambassadors</li>
+<li>Kenneth Ma</li>
+<li>Consultant Gynaecologist St Mary’s Hospital, specialist in severe endometriosis, advanced laparoscopic surgery,  BSGE accredited surgeons in Endometriosis Centre.</li>
+<li>Gaity Ahmad</li>
+<li>Consultant Gynaecologist and obstetrician ROH  specialist in Endometriosis</li>
+<li>Andrew Pickersgill</li>
+<li>Consultant Gynaecologist and obstetrician Alexandra Hospital specialist in Endometriosis</li>
+<li>Margaret Heywood and Susan Richardson</li>
+<li>School and College Education about period health</li>
+<li>Caroline Yates</li>
+<li>Treasurer</li>
+<li>Peter Gibson</li>
+<li>PR and communications</li>
+<li>Janet Kennett</li>
+<li>Fundraiser</li>
+<li>Dr Ken Ma  and Francine Jury</li>
+<li>Additional Members</li>
+</ul>
+    <div class="slide-footer" aria-hidden="true">
+      <div class="line"></div>
+      <div class="small">Endometriosis Awareness North</div>
+    </div>
+  </div>
+</section>
+<div class="kbdhint">Tip: use ← → keys. Share a specific slide: <span class="small">slides.html#12</span></div>
+
+</main>
+
+<script src="a11y-theme.js"></script>
+<script>
+(() => {
+  const slideEls = Array.from(document.querySelectorAll('.slide'));
+  const total = slideEls.length;
+
+  function clamp(x){ return Math.max(1, Math.min(total, x)); }
+  function current(){
+    const h = (location.hash || '').replace('#','');
+    const x = parseInt(h, 10);
+    return Number.isFinite(x) ? clamp(x) : 1;
+  }
+  function show(x, push=true){
+    x = clamp(x);
+    slideEls.forEach(s => s.classList.remove('is-active'));
+    const el = slideEls[x-1];
+    if (el) el.classList.add('is-active');
+    if (push) location.hash = String(x);
+    const live = document.getElementById('a11y-live');
+    if (live) live.textContent = `Slide ${x} of ${total}.`;
+  }
+
+  // Side buttons
+  document.getElementById('prevBtn')?.addEventListener('click', () => show(current()-1));
+  document.getElementById('nextBtn')?.addEventListener('click', () => show(current()+1));
+
+  // Modal
+  const modal = document.getElementById('a11yModal');
+  const backdrop = document.getElementById('a11yBackdrop');
+  const openBtn = document.getElementById('openA11y');
+  const closeBtn = document.getElementById('closeA11y');
+
+  function openModal(){
+    if (!modal || !backdrop) return;
+    modal.hidden = false;
+    backdrop.hidden = false;
+    (modal.querySelector('select, input, button'))?.focus();
+  }
+  function closeModal(){
+    if (!modal || !backdrop) return;
+    modal.hidden = true;
+    backdrop.hidden = true;
+    openBtn?.focus();
+  }
+  openBtn?.addEventListener('click', openModal);
+  closeBtn?.addEventListener('click', closeModal);
+  backdrop?.addEventListener('click', closeModal);
+
+  // Autoplay
+  let autoTimer = null;
+  const autoBtn = document.getElementById('autoBtn');
+  function startAuto(){
+    if (autoTimer) return;
+    autoTimer = setInterval(() => {
+      const n = current();
+      show(n >= total ? 1 : n + 1);
+    }, 4000);
+    if (autoBtn) autoBtn.textContent = 'Stop autoplay';
+  }
+  function stopAuto(){
+    if (!autoTimer) return;
+    clearInterval(autoTimer);
+    autoTimer = null;
+    if (autoBtn) autoBtn.textContent = 'Start autoplay';
+  }
+  autoBtn?.addEventListener('click', () => { autoTimer ? stopAuto() : startAuto(); });
+
+  // Keyboard
+  window.addEventListener('keydown', (e) => {
+    const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+    if (tag === 'input' || tag === 'textarea' || e.target?.isContentEditable) return;
+
+    if (e.key === 'ArrowLeft') show(current()-1);
+    if (e.key === 'ArrowRight') show(current()+1);
+    if (e.key === 'Home') show(1);
+    if (e.key === 'End') show(total);
+    if (e.key === 'Escape') closeModal();
+  });
+
+  window.addEventListener('hashchange', () => show(current(), false));
+  show(current(), false);
+})();
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

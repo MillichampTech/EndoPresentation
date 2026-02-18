@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Endometriosis Awareness North</title>
+  <meta name="description" content="Endometriosis Awareness North — education and awareness resources." />
+  <link rel="icon" type="image/png" href="ean-badge.png" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .75rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      text-decoration: none;
+      color: inherit
+    }
+
+    .brand-badge {
+      width: 10rem;
+      height: 3rem;
+      object-fit: contain
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="wrap">
+      <div class="row">
+        <a class="brand" href="index.html">
+          <img class="brand-badge" src="ean-wordmark.png" alt="brand logo" aria-hidden="true" />
+
+        </a>
+
+        <div class="nav-actions">
+          <div class="pill">
+            <span class="label">Translate</span>
+            <span id="google_translate_element"></span>
+          </div>
+          <button class="btn" id="openA11y">Accessibility</button>
+          <a class="btn" href="slides.html">Slides</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Accessibility modal -->
+  <div class="modal-backdrop" id="a11yBackdrop" hidden></div>
+  <div class="modal" id="a11yModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Accessibility</h3>
+        <button class="btn" id="closeA11y">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="field">
+          <label><b>Theme</b></label>
+          <select id="themeSelect">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="contrast">High contrast</option>
+            <option value="dyslexia">Dyslexia</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label><b>Text size</b> <span id="fontSizeLabel">100%</span></label>
+          <input id="fontSizeRange" type="range" min="90" max="150" step="5" value="100" />
+        </div>
+
+        <div class="field">
+          <label><input id="toggleReduceMotion" type="checkbox" /> Reduce motion</label>
+          <label><input id="toggleUnderline" type="checkbox" /> Underline links</label>
+          <label><input id="toggleReadable" type="checkbox" /> Readable mode</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="wrap">
+      <img class="hero-logo" src="ean-full.png" alt="Endometriosis Awareness North" />
+      <h1>Education, awareness and support</h1>
+      <p>This site shares Endometriosis Awareness North’s presentation in a web-friendly format.</p>
+      <div class="notice small">
+        Translations are provided automatically using Google Translate.
+        If anything looks unclear, please refer to the English version or contact the charity for help.
+      </div>
+      <div class="cta-row">
+        <a class="btn primary" href="#resources">View resources</a>
+        <a class="btn" href="slides.html">View as slideshow</a>
+        <a class="btn" href="https://endometriosisawarenessnorth.com/contact-us">Contact</a>
+      </div>
+    </div>
+  </section>
+
+  <main id="main" class="wrap">
+    <aside class="card" id="contact">
+      <h2>Contact</h2>
+      <div class="kv">
+        <div class="item"><b>Website</b>
+          <div><a href="https://endometriosisawarenessnorth.com/">endometriosisawarenessnorth.com</a></div>
+        </div>
+        <div class="item"><b>Charity number</b>
+          <div><a
+              href="https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/5257633/governing-document"
+             >1212676</a> </div></div>
+        </div>
+    </aside>
+    <div class="grid">
+
+      <article class="card" id="resources">
+        <h2>Presentation (accessible web version)</h2>
+
+        <details open>
+          <summary>Mission statement</summary>
+          <p><b>Endometriosis Awareness North Charity</b> — Promote good health, prevent negative health outcomes,
+            restore health &amp; wellbeing.</p>
+        </details>
+
+        <details>
+          <summary>What is endometriosis?</summary>
+          <p>Endometriosis is a condition characterised by the presence of <b>tissue resembling endometrium outside of
+              the uterus</b>.</p>
+        </details>
+
+        <details>
+          <summary>Symptoms where endometriosis may be suspected</summary>
+          <p>Chronic pelvic pain, dysmenorrhoea, deep pain during/after sex, gastrointestinal symptoms, urinary
+            symptoms, infertility.</p>
+          <p class="small">If pain persists during periods, is severe enough to interfere with normal activities, or
+            lasts longer than 2–3 days, seek medical advice.</p>
+        </details>
+
+        <details>
+          <summary>Key facts</summary>
+          <div class="kv">
+            <div class="item"><b>UK impact</b>
+              <div>Estimated to affect <b>1.5 million women</b> in the UK.</div>
+            </div>
+            <div class="item"><b>Global impact</b>
+              <div>Estimated to affect <b>190 million women</b> globally.</div>
+            </div>
+            <div class="item"><b>Diagnosis delay</b>
+              <div>Average time to diagnosis: <b>7.5 years</b>.</div>
+            </div>
+            <div class="item"><b>Average age at diagnosis</b>
+              <div><b>27</b> years.</div>
+            </div>
+            <div class="item"><b>Fertility</b>
+              <div>Difficulty conceiving can occur in <b>30–50%</b> of cases.</div>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Why care can be poor</summary>
+          <p>Stigma around discussing period problems and painful sex, lack of awareness of symptoms, and gaps in
+            specialist support and training.</p>
+        </details>
+
+        <details>
+          <summary>Events &amp; activities</summary>
+          <p>Examples include charity walks, awareness events, school sessions, coffee mornings, pride events, and
+            period poverty projects.</p>
+        </details>
+
+       
+        <img src="ean-badge.png" alt="brand badge" aria="hidden" style="width: 18rem;"/>
+        
+      </article>
+      <article class="card" id="resources">
+         <hr class="sep" />
+        <!-- NEW MEDIA ROW -->
+        <h3>Slides & Video</h3>
+        <p class="small">
+          Prefer an on-page slideshow? <a href="slides.html">Open the HTML slideshow</a>.
+        </p>
+
+        <div class="media-row">
+
+          <div class="media-col">
+            <h4>Slides</h4>
+            <iframe src="Endo Slides 05.12.2025.pdf" title="Endometriosis slides"></iframe>
+          </div>
+
+          <div class="media-col">
+            <h4>Video</h4>
+            <video controls preload="metadata">
+              <source src="Endo Slides 05.12.2025.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+        </div>
+
+        <h3>Downloads</h3>
+        <div class="cta-row">
+          <a class="btn" href="Endo Slides 05.12.2025.pptx" download>Download PPTX</a>
+          <a class="btn" href="Endo Slides 05.12.2025.mp4" download>Download MP4</a>
+        </div>
+
+      </article>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="small">© 2026 Endometriosis Awareness North</div>
+    </div>
+  </footer>
+
+  <script src="a11y-theme.js"></script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+
+</html>

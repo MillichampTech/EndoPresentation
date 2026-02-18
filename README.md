@@ -1,2 +1,2 @@
-# EndoPresentation
-working website - new design for Charity
+# EndoSlides
+working website - new design - for Endomeitriosis North 
